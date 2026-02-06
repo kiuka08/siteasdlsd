@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Опрос</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 30px; }
+
+        .buttons { display: flex; gap: 20px; align-items: center; }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn { background-color: #4CAF50; color: white; z-index: 10; }
+        #noBtn { background-color: #f44336; color: white; }
+
+        /* Скример оформление */
+        #scrimer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 999;
+        }
+
+        #scrimer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="question">Ты котакбас?</h1>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="activateScrimer()">Yes</button>
+        <button id="noBtn" onclick="growYes()">No</button>
+    </div>
+
+    <div id="scrimer">
+        <img src="https://red-dot-geek.com/wp-content/uploads/2021/01/jeff-the-killer-horror.jpg" alt="BOO!">
+        <audio id="screamSound" src="https://www.myinstants.com/media/sounds/scary-monsters-screaming.mp3"></audio>
+    </div>
+
+    <script>
+        let scale = 1;
+        let clicks = 0;
+
+        function growYes() {
+            clicks++;
+            scale += 0.8; // На сколько увеличивается кнопка
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.style.transform = `scale(${scale})`;
+
+            // Если нажали "Нет" больше 5 раз, скример сработает сам
+            if (clicks > 5) {
+                activateScrimer();
+            }
+        }
+
+        function activateScrimer() {
+            const scrimer = document.getElementById('scrimer');
+            const audio = document.getElementById('screamSound');
+            
+            scrimer.style.display = 'block';
+            audio.play();
+
+            // Вибрация телефона (если поддерживается)
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 110, 500, 110, 800]);
+            }
+        }
+    </script>
+</body>
+</html>
